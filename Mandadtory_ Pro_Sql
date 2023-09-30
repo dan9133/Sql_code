@@ -1,0 +1,64 @@
+# Write a SQL query to count the number of characters except the spaces  for each actor. Return first 10 actors name length along with their name. 
+    
+   
+   use mavenmovies;
+  select *,concat(first_name,'_',last_name),
+  length(concat(first_name,'_',last_name)) as name_length
+  from actor limit 10;
+  
+# 2 List all Oscar awardees(Actors who received Oscar award) with their  full names and length of their names.
+ 
+ 
+  select *,concat(first_name,'_',last_name),
+  length(concat(first_name,'_',last_name))as full_name_length 
+  from actor_award
+  where awards='oscar';
+
+
+  # 3 Find the actors who have acted in the film ‘Frost Head’.
+
+  select * from film
+  select a.first_name,a.last_name,(f.title)as"diff_title" from actor a
+  inner join film_actor fa on
+  a.actor_id=fa.actor_id  
+  inner join film f on 
+  f.film_id=fa.film_id
+  where f.title='Frost Head';
+
+ 
+  # 4  Pull all the films acted by the actor ‘Will Wilson
+  # use tables :film_actor,film,common key(actor_id,film_id)
+
+
+  select f.title as"TITLE",a.actor_id as "ID",a.first_name,a.last_name
+  from film f 
+  inner join film_actor fa on
+  f.film_id=fa.film_id
+  inner join actor a on
+  fa.actor_id=a.actor_id
+where a.first_name='will' and a.last_name='wilson';
+   
+  # 5 Pull all the films which were rented and return in the month of May.
+
+
+  select * from rental
+select distinct(count(f.title)) as"DIFF_TITLE",r.rental_date as"rental_May",
+r.return_date as "return_May" from film f
+inner join inventory i on
+i.film_id=f.film_id
+inner join rental r on
+i.inventory_id=r.inventory_id
+where monthname(rental_date)='may'
+and monthname(return_date)= 'may'
+order by count(f.title);
+  
+  # 6  Pull all the films with ‘Comedy’ category.
+
+  
+  select f.title,c.name as "New_Name",fc.category_id as"ID" from film f 
+  inner join film_category fc on 
+  f.film_id=fc.film_id
+  inner join category c on
+  c.category_id=fc.category_id
+  where c.name='comedy';
+  
